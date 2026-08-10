@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin - Bao Le Tien</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Accueil Bao Le Tien"><img class="brand-logo" src="/assets/images/logo.png" alt="Bao Le Tien" data-site-logo /><span data-site-name>Bao Le Tien</span></a>
+      <nav class="main-nav">
+        <a href="/">Accueil</a>
+      </nav>
+      <div class="header-actions"></div>
+    </header>
+    <main>
+      <section class="section page-hero section-reveal">
+        <p class="eyebrow">Administration</p>
+        <h1>Espace admin</h1>
+        <p>Point d'entree prive pour gerer les tableaux, les expositions et les informations du site.</p>
+      </section>
+      <section class="admin-tabs" aria-label="Onglets admin">
+        <button type="button" class="is-active" data-admin-tab="links">Liens</button>
+        <button type="button" data-admin-tab="images">Banque images</button>
+        <button type="button" data-admin-tab="collections">Collections</button>
+        <button type="button" data-admin-tab="artworks">Ajout tableau</button>
+        <button type="button" data-admin-tab="exhibitions">Expositions</button>
+        <button type="button" data-admin-tab="styles">Styles</button>
+        <button type="button" data-admin-tab="pages">Pages du site</button>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel is-active" data-admin-panel="links">
+        <div class="section-heading">
+          <p class="eyebrow">Liens</p>
+          <h2>Editer les liens</h2>
+          <p>Ces liens alimentent les boutons Instagram, WhatsApp et Linktree du site.</p>
+        </div>
+        <form class="admin-link-form admin-card-form" data-admin-link-form>
+          <label>Nom artiste <input name="siteName" placeholder="Bao Le Tien" /></label>
+          <label>Logo <select name="logoImageId" data-logo-image-select></select></label>
+          <label>Instagram <input type="url" name="instagram" placeholder="https://instagram.com/..." /></label>
+          <label>Linktree <input type="url" name="linktree" placeholder="https://linktr.ee/..." /></label>
+          <label>WhatsApp <input type="url" name="whatsapp" placeholder="https://wa.me/336..." /></label>
+          <button class="button" type="submit">Enregistrer les liens</button>
+        </form>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel" data-admin-panel="images">
+        <div class="section-heading">
+          <p class="eyebrow">Images</p>
+          <h2>Banque d'images</h2>
+          <p>Ajoute des images avec un nom, puis reutilise-les dans les tableaux.</p>
+        </div>
+        <form class="image-bank-form" data-image-bank-form>
+          <label>Nom de l'image <input name="imageName" required placeholder="Ex: Atelier lumiere" /></label>
+          <label>Fichier local <input name="imageFile" type="file" accept="image/*" required /></label>
+          <button class="button" type="submit">Ajouter l'image</button>
+        </form>
+        <div class="image-bank-grid" data-image-bank-list></div>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel" data-admin-panel="collections">
+        <div class="section-heading">
+          <p class="eyebrow">Collections</p>
+          <h2>Creer une collection</h2>
+          <p>Une collection regroupe plusieurs oeuvres autour d'un theme, d'une periode ou d'une serie.</p>
+        </div>
+        <form class="admin-entity-form" data-collection-form>
+          <label>Nom <input name="name" required placeholder="Ex: Bao" /></label>
+          <label>Description <textarea name="description" rows="3" placeholder="Courte presentation"></textarea></label>
+          <label>Image couverture <select name="imageId" data-collection-image-select></select></label>
+          <label>Statut
+            <select name="status">
+              <option value="visible">Visible</option>
+              <option value="brouillon">Brouillon</option>
+            </select>
+          </label>
+          <button class="button" type="submit" data-collection-submit>Ajouter la collection</button>
+          <button class="button button-outline" type="button" data-cancel-collection-edit hidden>Annuler</button>
+        </form>
+        <div class="admin-list entity-list" data-collection-list></div>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel" data-admin-panel="artworks">
+        <div class="section-heading">
+          <p class="eyebrow">Tableaux</p>
+          <h2>Ajouter une oeuvre</h2>
+          <p>Les ajouts sont sauvegardes localement dans ce navigateur pour le moment.</p>
+        </div>
+        <form class="artwork-form" data-artwork-form>
+          <label>Titre <input name="titre" required placeholder="Ex: Eclats de lumiere" /></label>
+          <label>Prix <input name="prix" required placeholder="Ex: 1 200 EUR ou Sur demande" /></label>
+          <label>Collection <select name="collection" data-artwork-collection-select required></select></label>
+          <label>Image banque
+            <select name="bankImage" data-bank-image-select>
+              <option value="">Choisir une image</option>
+            </select>
+          </label>
+          <label>Ou URL image <input name="image" type="url" placeholder="URL de l'image" /></label>
+          <button class="button" type="submit">Ajouter le tableau</button>
+        </form>
+        <div class="admin-list" data-admin-artworks></div>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel" data-admin-panel="exhibitions">
+        <div class="section-heading">
+          <p class="eyebrow">Expositions</p>
+          <h2>Creer une exposition</h2>
+          <p>Une exposition est un evenement date, lie a un lieu et potentiellement a une collection.</p>
+        </div>
+        <form class="admin-entity-form" data-exhibition-form>
+          <label>Titre <input name="title" required placeholder="Ex: Nouvelle exposition" /></label>
+          <label>Date debut <input name="startDate" type="date" /></label>
+          <label>Date fin <input name="endDate" type="date" /></label>
+          <label>Lieu <input name="place" placeholder="Galerie, atelier..." /></label>
+          <label>Ville <input name="city" placeholder="Paris" /></label>
+          <label>Contenu expose
+            <select name="contentMode" data-exhibition-content-mode>
+              <option value="collections">Collection(s) complete(s)</option>
+              <option value="artworks">Tableau(x) specifique(s)</option>
+            </select>
+          </label>
+          <div class="choice-box" data-exhibition-collections-field>
+            <strong>Collections</strong>
+            <div data-exhibition-collection-options></div>
+          </div>
+          <div class="choice-box" data-exhibition-artworks-field hidden>
+            <strong>Tableaux</strong>
+            <div data-exhibition-artwork-options></div>
+          </div>
+          <label>Image <select name="imageId" data-exhibition-image-select></select></label>
+          <label>Statut
+            <select name="status">
+              <option value="a venir">A venir</option>
+              <option value="en cours">En cours</option>
+              <option value="passee">Passee</option>
+            </select>
+          </label>
+          <label>Description <textarea name="description" rows="3" placeholder="Texte court de l'exposition"></textarea></label>
+          <button class="button" type="submit" data-exhibition-submit>Ajouter l'exposition</button>
+          <button class="button button-outline" type="button" data-cancel-exhibition-edit hidden>Annuler</button>
+        </form>
+        <div class="admin-list entity-list" data-exhibition-list></div>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel" data-admin-panel="pages">
+        <div class="section-heading">
+          <p class="eyebrow">Pages</p>
+          <h2>Editer une copie des pages</h2>
+          <p>Choisis une page, modifie les champs, puis enregistre. Les modifications locales s'appliquent au site.</p>
+        </div>
+        <div class="page-editor">
+          <aside class="page-list" aria-label="Pages editables">
+            <button type="button" class="is-active" data-edit-page="home">Accueil</button>
+            <button type="button" data-edit-page="about">Qui suis-je ?</button>
+            <button type="button" data-edit-page="expositions">Expositions</button>
+            <button type="button" data-edit-page="tableaux">Mes tableaux</button>
+            <button type="button" data-edit-page="apero">Apero / Dinatoire</button>
+          </aside>
+          <form class="page-edit-form" data-page-edit-form>
+            <label>Titre principal <input name="heroTitle" data-page-field="heroTitle" /></label>
+            <label>Sous-titre <textarea name="heroSubtitle" data-page-field="heroSubtitle" rows="4"></textarea></label>
+            <label>Image principale
+              <select name="heroImageId" data-page-field="heroImageId" data-page-image-select>
+                <option value="">Choisir une image</option>
+              </select>
+            </label>
+            <button class="button" type="submit">Enregistrer la page</button>
+            <p class="admin-save-status" data-page-save-status aria-live="polite"></p>
+          </form>
+          <article class="page-preview" data-page-preview>
+            <img data-preview-image alt="Apercu de la page" />
+            <div>
+              <p class="eyebrow" data-preview-name>Accueil</p>
+              <h3 data-preview-title></h3>
+              <p data-preview-subtitle></p>
+            </div>
+          </article>
+        </div>
+        <div class="section-heading admin-subheading">
+          <p class="eyebrow">Sections</p>
+          <h2>Ajouter une section</h2>
+          <p>La section sera ajoutee a la page selectionnee.</p>
+        </div>
+        <form class="admin-entity-form" data-custom-section-form>
+          <label>Titre <input name="title" placeholder="Titre de section" /></label>
+          <label>Sous-titre <input name="subtitle" placeholder="Sous-titre" /></label>
+          <label>Paragraphe <textarea name="paragraph" rows="3" placeholder="Texte de la section"></textarea></label>
+          <label>Image <select name="imageId" data-section-image-select></select></label>
+          <button class="button" type="submit">Ajouter la section</button>
+        </form>
+        <div class="admin-list entity-list" data-custom-section-list></div>
+      </section>
+      <section class="section admin-editor section-reveal admin-tab-panel" data-admin-panel="styles">
+        <div class="section-heading">
+          <p class="eyebrow">Styles</p>
+          <h2>Styles globaux</h2>
+          <p>Regle les polices, tailles et couleurs par type de texte sur tout le site.</p>
+        </div>
+        <form class="admin-entity-form style-form" data-style-form>
+          <label>Titres - police <select name="titleFont"><option value="Georgia, 'Times New Roman', serif">Georgia</option><option value="'Times New Roman', serif">Times New Roman</option><option value="'Trebuchet MS', sans-serif">Trebuchet</option><option value="Inter, Arial, sans-serif">Inter</option></select></label>
+          <label>Titres - taille <input name="titleSize" type="number" min="32" max="120" /></label>
+          <label>Titres - couleur <input name="titleColor" type="color" /></label>
+          <label>Sous-titres - police <select name="subtitleFont"><option value="Inter, Arial, sans-serif">Inter</option><option value="Georgia, 'Times New Roman', serif">Georgia</option><option value="'Trebuchet MS', sans-serif">Trebuchet</option></select></label>
+          <label>Sous-titres - taille <input name="subtitleSize" type="number" min="12" max="40" /></label>
+          <label>Sous-titres - couleur <input name="subtitleColor" type="color" /></label>
+          <label>Texte - police <select name="textFont"><option value="Inter, Arial, sans-serif">Inter</option><option value="Arial, sans-serif">Arial</option><option value="Georgia, 'Times New Roman', serif">Georgia</option></select></label>
+          <label>Texte - taille <input name="textSize" type="number" min="12" max="28" /></label>
+          <label>Texte - couleur <input name="textColor" type="color" /></label>
+          <label>Bandeau - police <select name="headerFont"><option value="Inter, Arial, sans-serif">Inter</option><option value="Georgia, 'Times New Roman', serif">Georgia</option><option value="'Trebuchet MS', sans-serif">Trebuchet</option></select></label>
+          <label>Bandeau - taille <input name="headerSize" type="number" min="12" max="28" /></label>
+          <label>Bandeau - couleur texte <input name="headerText" type="color" /></label>
+          <button class="button" type="submit">Enregistrer les styles</button>
+        </form>
+      </section>
+    </main>
+    <script src="../data.js"></script>
+    <script src="../script.js"></script>
+  </body>
+</html>
