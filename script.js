@@ -47,23 +47,23 @@ const adminParam = new URLSearchParams(window.location.search).get("admin");
 const defaultSocialLinks = {
   siteName: "Bao Le Tien",
   logoImageId: "asset-logo",
-  instagram: "https://instagram.com/",
+  instagram: "https://instagram.com/bao.letien1",
   linktree: "https://linktr.ee/",
-  whatsapp: "https://wa.me/"
+  whatsapp: "https://wa.me/33628770714"
 };
 const defaultPageContent = {
   home: {
     name: "Accueil",
-    heroTitle: "Des oeuvres qui racontent des histoires.",
-    heroSubtitle: "Bienvenue dans mon univers artistique. Decouvrez mes tableaux, mes inspirations et les expositions a venir.",
+    heroTitle: "Des tableaux, des traces, des histoires.",
+    heroSubtitle: "Bienvenue chez Bao. Entrez par la couleur, la matière et les petits détails qui restent en tête.",
     heroImage: "/assets/images/bao-title.jpg",
     heroImageId: "asset-bao-title",
     titleFont: "Georgia, 'Times New Roman', serif"
   },
   about: {
-    name: "Qui suis-je ?",
-    heroTitle: "Derriere les oeuvres",
-    heroSubtitle: "Un parcours nourri par les emotions, les matieres et les contrastes.",
+    name: "Bao",
+    heroTitle: "Bao, tout simplement.",
+    heroSubtitle: "Un petit texte de présentation viendra bientôt raconter le parcours, les envies et les gestes de l’artiste.",
     heroImage: "/assets/images/bao-title.jpg",
     heroImageId: "asset-bao-title",
     titleFont: "Georgia, 'Times New Roman', serif"
@@ -77,19 +77,11 @@ const defaultPageContent = {
     titleFont: "Georgia, 'Times New Roman', serif"
   },
   tableaux: {
-    name: "Mes tableaux",
+    name: "Tableaux",
     heroTitle: "Mes tableaux",
-    heroSubtitle: "Les oeuvres sont organisees par collection. Chaque image ouvre la fiche detaillee du tableau.",
+    heroSubtitle: "Tableaux disponibles à la vente",
     heroImage: "/assets/images/bao-title.jpg",
     heroImageId: "asset-bao-title",
-    titleFont: "Georgia, 'Times New Roman', serif"
-  },
-  apero: {
-    name: "Apero / Dinatoire",
-    heroTitle: "Un moment convivial et gourmand",
-    heroSubtitle: "Des formules faites maison, preparees sur commande pour vos evenements.",
-    heroImage: "/assets/images/bouteille.jpg",
-    heroImageId: "asset-bouteille",
     titleFont: "Georgia, 'Times New Roman', serif"
   }
 };
@@ -97,18 +89,18 @@ let activeEditPage = "home";
 let editingCollectionId = null;
 let editingExhibitionId = null;
 const defaultStyleSettings = {
-  titleFont: "Georgia, 'Times New Roman', serif",
+  titleFont: "'DM Sans', 'Trebuchet MS', sans-serif",
   titleSize: 76,
-  titleColor: "#111214",
-  subtitleFont: "Inter, Arial, sans-serif",
+  titleColor: "#121927",
+  subtitleFont: "'DM Sans', 'Trebuchet MS', sans-serif",
   subtitleSize: 16,
-  subtitleColor: "#927044",
-  textFont: "Inter, Arial, sans-serif",
+  subtitleColor: "#b5a900",
+  textFont: "'DM Sans', 'Trebuchet MS', sans-serif",
   textSize: 16,
-  textColor: "#111214",
-  headerFont: "Inter, Arial, sans-serif",
+  textColor: "#121927",
+  headerFont: "'DM Sans', 'Trebuchet MS', sans-serif",
   headerSize: 14,
-  headerText: "#111214"
+  headerText: "#121927"
 };
 
 function getSocialLinks() {
@@ -289,6 +281,13 @@ applyPageContent();
 applyStyleSettings();
 renderCustomSections();
 
+const profileTitle = document.getElementById("profile-title");
+if (profileTitle) {
+  window.setTimeout(() => {
+    profileTitle.classList.add("is-visible");
+  }, 200);
+}
+
 if (adminLinkForm) {
   adminLinkForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -443,6 +442,77 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll(".section-reveal").forEach((section) => revealObserver.observe(section));
 
+const lightboxSelectors = ".exhibition-gallery img, .detail-layout img";
+if (document.querySelector(".exhibition-gallery, .detail-layout") || document.getElementById("artwork-detail")) {
+  const lightboxOverlay = document.createElement("div");
+  lightboxOverlay.className = "lightbox-overlay";
+  lightboxOverlay.innerHTML = `
+    <button type="button" class="lightbox-close" aria-label="Fermer">&times;</button>
+    <button type="button" class="lightbox-prev" aria-label="Photo precedente">&#8249;</button>
+    <button type="button" class="lightbox-next" aria-label="Photo suivante">&#8250;</button>
+    <figure class="lightbox-figure">
+      <img src="" alt="" />
+      <figcaption class="lightbox-caption"></figcaption>
+    </figure>
+  `;
+  document.body.appendChild(lightboxOverlay);
+
+  const lightboxImg = lightboxOverlay.querySelector("img");
+  const lightboxCaption = lightboxOverlay.querySelector(".lightbox-caption");
+  const lightboxPrev = lightboxOverlay.querySelector(".lightbox-prev");
+  const lightboxNext = lightboxOverlay.querySelector(".lightbox-next");
+  const lightboxClose = lightboxOverlay.querySelector(".lightbox-close");
+
+  let currentGalleryImages = [];
+  let currentIndex = 0;
+
+  function showLightboxImage(index) {
+    if (!currentGalleryImages.length) return;
+    currentIndex = (index + currentGalleryImages.length) % currentGalleryImages.length;
+    const image = currentGalleryImages[currentIndex];
+    lightboxImg.src = image.src;
+    lightboxImg.alt = image.alt || "";
+    lightboxCaption.textContent = currentGalleryImages.length > 1 ? `${currentIndex + 1} / ${currentGalleryImages.length}` : "";
+  }
+
+  function openLightbox(images, index) {
+    currentGalleryImages = images;
+    showLightboxImage(index);
+    lightboxOverlay.classList.add("is-open");
+    body.classList.add("lightbox-open");
+    lightboxPrev.hidden = images.length < 2;
+    lightboxNext.hidden = images.length < 2;
+  }
+
+  function closeLightbox() {
+    lightboxOverlay.classList.remove("is-open");
+    body.classList.remove("lightbox-open");
+  }
+
+  document.addEventListener("click", (event) => {
+    const img = event.target.closest(lightboxSelectors);
+    if (!img) return;
+    const gallery = img.closest(".exhibition-gallery, .detail-layout");
+    const images = Array.from(gallery.querySelectorAll("img"));
+    openLightbox(images, images.indexOf(img));
+  });
+
+  lightboxPrev.addEventListener("click", () => showLightboxImage(currentIndex - 1));
+  lightboxNext.addEventListener("click", () => showLightboxImage(currentIndex + 1));
+  lightboxClose.addEventListener("click", closeLightbox);
+
+  lightboxOverlay.addEventListener("click", (event) => {
+    if (event.target === lightboxOverlay) closeLightbox();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!lightboxOverlay.classList.contains("is-open")) return;
+    if (event.key === "Escape") closeLightbox();
+    if (event.key === "ArrowLeft") showLightboxImage(currentIndex - 1);
+    if (event.key === "ArrowRight") showLightboxImage(currentIndex + 1);
+  });
+}
+
 function slugify(value) {
   return value
     .toLowerCase()
@@ -454,9 +524,10 @@ function slugify(value) {
 
 function getLocalArtworks() {
   try {
-    return JSON.parse(localStorage.getItem("monArtLocalArtworks") || "[]");
+    const savedArtworks = JSON.parse(localStorage.getItem("monArtLocalArtworks") || "null");
+    return savedArtworks?.length ? savedArtworks : window.siteData?.artworks || [];
   } catch {
-    return [];
+    return window.siteData?.artworks || [];
   }
 }
 

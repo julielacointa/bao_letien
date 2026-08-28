@@ -1,17 +1,17 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mes tableaux - Bao Le Tien</title>
     <meta name="description" content="Galerie de tableaux contemporains disponibles, vendus ou sur demande." />
-    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../styles.css?v=29" />
   </head>
   <body>
     <header class="site-header" data-header>
       <a class="brand" href="/" aria-label="Accueil Bao Le Tien"><img class="brand-logo" src="/assets/images/logo.png" alt="Bao Le Tien" data-site-logo /><span data-site-name>Bao Le Tien</span></a>
       <nav class="main-nav" data-nav aria-label="Navigation principale">
-        <a href="/">Accueil</a><a href="/a-propos/">Qui suis-je ?</a><a href="/expositions/">Expositions</a><a href="/tableaux/" aria-current="page">Mes tableaux</a><a href="/apero-dinatoire/">Apero / Dinatoire</a>
+        <a href="/">Accueil</a><a href="/expositions/">Expositions</a><a href="/tableaux/" aria-current="page">Tableaux</a><a href="/contact/">Contact</a>
       </nav>
       <div class="header-actions">
         <a class="admin-link" href="/admin/" data-admin-link>Admin</a>
@@ -20,18 +20,16 @@
         <a class="button button-small" href="https://linktr.ee/" target="_blank" rel="noreferrer" data-social-link="linktree">Linktree</a>
         <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-panel"><span></span><span></span><span></span><span class="sr-only">Ouvrir le menu</span></button>
       </div>
-      <div class="mobile-panel" id="mobile-panel" data-mobile-panel><a href="/">Accueil</a><a href="/a-propos/">Qui suis-je ?</a><a href="/expositions/">Expositions</a><a href="/tableaux/">Mes tableaux</a><a href="/apero-dinatoire/">Apero / Dinatoire</a><a href="https://instagram.com/" target="_blank" rel="noreferrer" data-social-link="instagram">Instagram</a><a href="https://linktr.ee/" target="_blank" rel="noreferrer" data-social-link="linktree">Linktree</a><a href="https://wa.me/" target="_blank" rel="noreferrer" data-social-link="whatsapp">WhatsApp</a><a href="/admin/" data-admin-link>Admin</a></div>
+      <div class="mobile-panel" id="mobile-panel" data-mobile-panel><a href="/">Accueil</a><a href="/expositions/">Expositions</a><a href="/tableaux/">Tableaux</a><a href="/contact/">Contact</a><a href="/admin/" data-admin-link>Admin</a></div>
     </header>
     <main>
-      <section class="section page-hero page-hero-with-image section-reveal"><div><p class="eyebrow">Galerie</p><h1 data-content="tableaux.heroTitle">Mes tableaux</h1><p data-content="tableaux.heroSubtitle">Les oeuvres sont organisees par collection. Chaque image ouvre la fiche detaillee du tableau.</p></div><img data-image-content="tableaux.heroImage" src="/assets/images/bao-title.jpg" alt="Mes tableaux" /></section>
-      <section class="section artwork-detail" id="artwork-detail" hidden></section>
-      <section class="section all-artworks-band">
-        <div class="section-heading">
-          <p class="eyebrow">Tous les tableaux</p>
-          <h2>Parcourir les oeuvres</h2>
-        </div>
-        <div class="artwork-strip" id="artwork-strip"></div>
+      <section class="section tableaux-intro section-reveal">
+        <h1>Galerie</h1>
       </section>
+      <section class="tableaux-marquee" aria-label="Aperçu des tableaux">
+        <div class="marquee-track" id="marquee-track"></div>
+      </section>
+      <section class="section artwork-detail" id="artwork-detail" hidden></section>
       <section class="section" id="gallery"></section>
       <div data-custom-sections="tableaux"></div>
     </main>
@@ -41,33 +39,36 @@
         <a href="https://instagram.com/" target="_blank" rel="noreferrer" data-social-link="instagram">Instagram</a>
         <a href="https://linktr.ee/" target="_blank" rel="noreferrer" data-social-link="linktree">Linktree</a>
         <a href="https://wa.me/" target="_blank" rel="noreferrer" data-social-link="whatsapp">WhatsApp</a>
-        <a href="/mentions-legales/">Mentions legales</a>
-        <a href="/confidentialite/">Confidentialite</a>
       </nav>
       <p>&copy; <span data-year></span> <span data-site-year-name>Bao Le Tien</span>. Tous droits reserves.</p>
     </footer>
-    <script src="../data.js"></script><script src="../script.js"></script>
+    <script src="../data.js"></script><script src="../script.js?v=6"></script>
     <script>
       (() => {
       function readJson(key, fallback) { try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch { return fallback; } }
       const collections = readJson("monArtCollections", [{ id: "default-bao", name: "Sans collection", description: "", status: "visible" }]);
-      const localArtworks = readJson("monArtLocalArtworks", []);
+      const savedArtworks = readJson("monArtLocalArtworks", null);
+      const localArtworks = savedArtworks?.length ? savedArtworks : window.siteData?.artworks || [];
       const galleryArtworks = localArtworks;
       const selectedSlug = new URLSearchParams(location.search).get("art");
       const selected = galleryArtworks.find((art) => art.slug === selectedSlug);
+      const marqueeTrack = document.getElementById("marquee-track");
+      if (marqueeTrack && galleryArtworks.length) {
+        const marqueeItems = galleryArtworks.map((art) => `<a class="marquee-item" href="/tableaux/?art=${art.slug}" aria-label="Voir ${art.titre}"><img src="${art.images[0]}" alt="${art.titre}" loading="lazy"></a>`).join("");
+        marqueeTrack.innerHTML = marqueeItems + marqueeItems;
+      }
       const detail = document.getElementById("artwork-detail");
       if (selected) {
         detail.hidden = false;
         detail.innerHTML = `<div class="detail-layout"><img src="${selected.images[0]}" alt="${selected.titre}" width="1100" height="900"><div><p class="eyebrow">Tableau</p><h2>${selected.titre}</h2><p>${selected.description || ""}</p><p class="feature-meta">${selected.dimensions || ""} - ${selected.technique || ""} - ${selected.prix || ""}</p><a class="button button-outline" href="/tableaux/">Retour aux tableaux</a></div></div>`;
       }
-      document.getElementById("artwork-strip").innerHTML = galleryArtworks.map((art) => `<a class="strip-artwork" href="/tableaux/?art=${art.slug}" aria-label="Voir ${art.titre}"><img src="${art.images[0]}" alt="${art.titre}" loading="lazy"><strong>${art.titre}</strong><span>${art.prix || ""}</span></a>`).join("");
       const groups = collections.map((collection) => {
         const items = galleryArtworks.filter((art) => String(art.collectionId || "") === String(collection.id) || art.collection === collection.name);
         return { collection, items };
       });
       const ungrouped = galleryArtworks.filter((art) => !groups.some((group) => group.items.includes(art)));
       if (ungrouped.length) groups.push({ collection: { name: "Autres oeuvres", description: "" }, items: ungrouped });
-      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="section-heading"><p class="eyebrow">Collection</p><h2>${group.collection.name}</h2><p>${group.collection.description || ""}</p></div><div class="content-grid">${group.items.map((art) => `<article class="content-card"><a href="/tableaux/?art=${art.slug}"><img src="${art.images[0]}" alt="${art.titre}" width="900" height="700" loading="lazy"></a><div><h3>${art.titre}</h3><p>${art.dimensions || ""}<br>${art.technique || ""}<br>${art.prix || ""}</p><a class="text-link" href="/tableaux/?art=${art.slug}">Voir le tableau</a></div></article>`).join("")}</div></section>`).join("");
+      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><a href="/tableaux/?art=${art.slug}"><img src="${art.images[0]}" alt="${art.titre}" width="900" height="700" loading="lazy"></a><div><h3>${art.titre}</h3><p>${art.description || ""}</p><p class="feature-meta">${art.prix || ""}</p></div></article>`).join("")}</div></section>`).join("");
       })();
     </script>
   </body>
