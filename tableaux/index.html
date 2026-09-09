@@ -17,7 +17,7 @@
     <meta name="twitter:title" content="Mes tableaux - Bao Le Tien" />
     <meta name="twitter:description" content="Galerie de tableaux contemporains disponibles, vendus ou sur demande." />
     <meta name="twitter:image" content="https://baoletien.netlify.app/assets/images/bao-title.jpg" />
-    <link rel="stylesheet" href="../styles.css?v=39" />
+    <link rel="stylesheet" href="../styles.css?v=43" />
   </head>
   <body>
     <header class="site-header" data-header>
@@ -28,7 +28,6 @@
       <div class="header-actions">
         <a class="admin-link" href="/admin/" data-admin-link>Admin</a>
         <a class="icon-link" href="https://instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram" data-social-link="instagram"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm5.3-2.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Z"/></svg></a>
-        <a class="icon-link" href="https://wa.me/" target="_blank" rel="noreferrer" aria-label="WhatsApp" data-social-link="whatsapp"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12.04 2a9.86 9.86 0 0 0-8.45 14.93L2.3 21.7l4.88-1.27A9.86 9.86 0 1 0 12.04 2Zm0 2a7.86 7.86 0 0 1 0 15.72 7.78 7.78 0 0 1-4-1.1l-.38-.22-2.44.64.65-2.37-.25-.4A7.86 7.86 0 0 1 12.04 4Zm-3.1 3.76c-.18 0-.46.06-.7.33-.24.26-.92.9-.92 2.2 0 1.29.94 2.54 1.07 2.72.13.17 1.82 2.91 4.5 3.96 2.23.88 2.69.7 3.17.66.48-.04 1.56-.64 1.78-1.25.22-.62.22-1.15.15-1.26-.06-.11-.24-.17-.5-.3-.26-.13-1.56-.77-1.8-.86-.24-.09-.42-.13-.6.13-.17.26-.68.86-.83 1.03-.15.18-.31.2-.57.07-.26-.13-1.1-.4-2.1-1.29-.78-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.31.4-.46.13-.15.17-.26.26-.44.09-.17.04-.33-.02-.46-.07-.13-.6-1.45-.82-1.98-.22-.52-.44-.45-.6-.46h-.52Z"/></svg></a>
         <a class="button button-small" href="https://linktr.ee/" target="_blank" rel="noreferrer" data-social-link="linktree">Linktree</a>
         <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-panel"><span></span><span></span><span></span><span class="sr-only">Ouvrir le menu</span></button>
       </div>
@@ -50,11 +49,10 @@
       <nav aria-label="Navigation secondaire">
         <a href="https://instagram.com/" target="_blank" rel="noreferrer" data-social-link="instagram">Instagram</a>
         <a href="https://linktr.ee/" target="_blank" rel="noreferrer" data-social-link="linktree">Linktree</a>
-        <a href="https://wa.me/" target="_blank" rel="noreferrer" data-social-link="whatsapp">WhatsApp</a>
       </nav>
       <p>&copy; <span data-year></span> <span data-site-year-name>Bao Le Tien</span>. Tous droits reserves.</p>
     </footer>
-    <script src="../data.js"></script><script src="../script.js?v=6"></script>
+    <script src="../data.js"></script><script src="../script.js?v=9"></script>
     <script>
       (() => {
       function readJson(key, fallback) { try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch { return fallback; } }
@@ -72,7 +70,7 @@
       const detail = document.getElementById("artwork-detail");
       if (selected) {
         detail.hidden = false;
-        detail.innerHTML = `<div class="detail-layout"><img src="${selected.images[0]}" alt="${selected.titre}" width="1100" height="900"><div><p class="eyebrow">Tableau</p><h2>${selected.titre}</h2><p>${selected.description || ""}</p><p class="feature-meta">${selected.dimensions || ""} - ${selected.technique || ""} - ${selected.prix || ""}</p><a class="button button-outline" href="/tableaux/">Retour aux tableaux</a></div></div>`;
+        detail.innerHTML = `<div class="detail-layout"><img src="${selected.images[0]}" alt="${selected.titre}" width="1100" height="900"><div><p class="eyebrow">Tableau</p><h2>${selected.titre}</h2><p>${selected.description || ""}</p><p class="feature-meta">${[selected.dimensions, selected.technique, selected.prix].filter(Boolean).join(" - ")}</p><a class="button button-outline" href="/tableaux/">Retour aux tableaux</a></div></div>`;
       }
       const groups = collections.map((collection) => {
         const items = galleryArtworks.filter((art) => String(art.collectionId || "") === String(collection.id) || art.collection === collection.name);
@@ -80,7 +78,7 @@
       });
       const ungrouped = galleryArtworks.filter((art) => !groups.some((group) => group.items.includes(art)));
       if (ungrouped.length) groups.push({ collection: { name: "Autres oeuvres", description: "" }, items: ungrouped });
-      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><a href="/tableaux/?art=${art.slug}"><img src="${art.images[0]}" alt="${art.titre}" width="900" height="700" loading="lazy"></a><div><h3>${art.titre}</h3><p>${art.description || ""}</p><p class="feature-meta">${art.prix || ""}</p></div></article>`).join("")}</div></section>`).join("");
+      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><div class="content-card-images">${art.images.map((src, i) => `<img src="${src}" alt="${art.titre}${i > 0 ? " (zoom)" : ""}" width="900" height="700" loading="lazy">`).join("")}</div><div><h3><a href="/tableaux/?art=${art.slug}">${art.titre}</a></h3><p>${art.description || ""}</p><p class="feature-meta">${[art.dimensions, art.technique, art.prix].filter(Boolean).join(" - ")}</p></div></article>`).join("")}</div></section>`).join("");
       })();
     </script>
   </body>

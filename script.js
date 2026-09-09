@@ -48,8 +48,7 @@ const defaultSocialLinks = {
   siteName: "Bao Le Tien",
   logoImageId: "asset-logo",
   instagram: "https://instagram.com/bao.letien1",
-  linktree: "https://linktr.ee/",
-  whatsapp: "https://wa.me/33628770714"
+  linktree: "https://linktr.ee/"
 };
 const defaultPageContent = {
   home: {
@@ -295,8 +294,7 @@ if (adminLinkForm) {
       siteName: adminLinkForm.elements.siteName.value.trim() || defaultSocialLinks.siteName,
       logoImageId: adminLinkForm.elements.logoImageId.value || defaultSocialLinks.logoImageId,
       instagram: adminLinkForm.elements.instagram.value.trim() || defaultSocialLinks.instagram,
-      linktree: adminLinkForm.elements.linktree.value.trim() || defaultSocialLinks.linktree,
-      whatsapp: adminLinkForm.elements.whatsapp.value.trim() || defaultSocialLinks.whatsapp
+      linktree: adminLinkForm.elements.linktree.value.trim() || defaultSocialLinks.linktree
     };
     localStorage.setItem("monArtSocialLinks", JSON.stringify(links));
     applySocialLinks();
@@ -442,8 +440,8 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll(".section-reveal").forEach((section) => revealObserver.observe(section));
 
-const lightboxSelectors = ".exhibition-gallery img, .detail-layout img";
-if (document.querySelector(".exhibition-gallery, .detail-layout") || document.getElementById("artwork-detail")) {
+const lightboxSelectors = ".exhibition-gallery img, .detail-layout img, .content-card-images img";
+if (document.querySelector(".exhibition-gallery, .detail-layout, .content-card-images") || document.getElementById("artwork-detail")) {
   const lightboxOverlay = document.createElement("div");
   lightboxOverlay.className = "lightbox-overlay";
   lightboxOverlay.innerHTML = `
@@ -492,7 +490,7 @@ if (document.querySelector(".exhibition-gallery, .detail-layout") || document.ge
   document.addEventListener("click", (event) => {
     const img = event.target.closest(lightboxSelectors);
     if (!img) return;
-    const gallery = img.closest(".exhibition-gallery, .detail-layout");
+    const gallery = img.closest(".exhibition-gallery, .detail-layout, .content-card-images");
     const images = Array.from(gallery.querySelectorAll("img"));
     openLightbox(images, images.indexOf(img));
   });
