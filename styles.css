@@ -1932,9 +1932,31 @@ h3 {
 }
 
 .content-card-images {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2px;
+}
+
+.sold-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  transform: rotate(-14deg);
+  background: var(--paper);
+  color: var(--sun);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border: 2px solid var(--sun);
+  outline: 2px solid var(--sun);
+  outline-offset: 3px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 
 .content-card-images:has(img:only-child) {

@@ -17,7 +17,7 @@
     <meta name="twitter:title" content="Mes tableaux - Bao Le Tien" />
     <meta name="twitter:description" content="Galerie de tableaux contemporains disponibles, vendus ou sur demande." />
     <meta name="twitter:image" content="https://baoletien.netlify.app/assets/images/bao-title.jpg" />
-    <link rel="stylesheet" href="../styles.css?v=43" />
+    <link rel="stylesheet" href="../styles.css?v=45" />
   </head>
   <body>
     <header class="site-header" data-header>
@@ -52,7 +52,7 @@
       </nav>
       <p>&copy; <span data-year></span> <span data-site-year-name>Bao Le Tien</span>. Tous droits reserves.</p>
     </footer>
-    <script src="../data.js"></script><script src="../script.js?v=9"></script>
+    <script src="../data.js"></script><script src="../script.js?v=10"></script>
     <script>
       (() => {
       function readJson(key, fallback) { try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch { return fallback; } }
@@ -70,7 +70,7 @@
       const detail = document.getElementById("artwork-detail");
       if (selected) {
         detail.hidden = false;
-        detail.innerHTML = `<div class="detail-layout"><img src="${selected.images[0]}" alt="${selected.titre}" width="1100" height="900"><div><p class="eyebrow">Tableau</p><h2>${selected.titre}</h2><p>${selected.description || ""}</p><p class="feature-meta">${[selected.dimensions, selected.technique, selected.prix].filter(Boolean).join(" - ")}</p><a class="button button-outline" href="/tableaux/">Retour aux tableaux</a></div></div>`;
+        detail.innerHTML = `<div class="detail-layout"><div class="content-card-images">${selected.disponible === false ? '<span class="sold-badge">Vendu</span>' : ""}<img src="${selected.images[0]}" alt="${selected.titre}" width="1100" height="900"></div><div><p class="eyebrow">Tableau</p><h2>${selected.titre}</h2><p>${selected.description || ""}</p><p class="feature-meta">${[selected.dimensions, selected.technique, selected.prix].filter(Boolean).join(" - ")}</p><a class="button button-outline" href="/tableaux/">Retour aux tableaux</a></div></div>`;
       }
       const groups = collections.map((collection) => {
         const items = galleryArtworks.filter((art) => String(art.collectionId || "") === String(collection.id) || art.collection === collection.name);
@@ -78,7 +78,7 @@
       });
       const ungrouped = galleryArtworks.filter((art) => !groups.some((group) => group.items.includes(art)));
       if (ungrouped.length) groups.push({ collection: { name: "Autres oeuvres", description: "" }, items: ungrouped });
-      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><div class="content-card-images">${art.images.map((src, i) => `<img src="${src}" alt="${art.titre}${i > 0 ? " (zoom)" : ""}" width="900" height="700" loading="lazy">`).join("")}</div><div><h3><a href="/tableaux/?art=${art.slug}">${art.titre}</a></h3><p>${art.description || ""}</p><p class="feature-meta">${[art.dimensions, art.technique, art.prix].filter(Boolean).join(" - ")}</p></div></article>`).join("")}</div></section>`).join("");
+      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><div class="content-card-images">${art.disponible === false ? '<span class="sold-badge">Vendu</span>' : ""}${art.images.map((src, i) => `<img src="${src}" alt="${art.titre}${i > 0 ? " (zoom)" : ""}" width="900" height="700" loading="lazy">`).join("")}</div><div><h3><a href="/tableaux/?art=${art.slug}">${art.titre}</a></h3><p>${art.description || ""}</p><p class="feature-meta">${[art.dimensions, art.technique, art.prix].filter(Boolean).join(" - ")}</p></div></article>`).join("")}</div></section>`).join("");
       })();
     </script>
   </body>

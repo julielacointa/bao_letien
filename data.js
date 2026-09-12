@@ -35,7 +35,7 @@ window.siteData = {
       dimensions: "40  x 40 cm",
       technique: "Acrylique sur toile",
     //  prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/bia.jpeg"]
     },
@@ -105,7 +105,7 @@ window.siteData = {
       dimensions: "38  x 38 cm",
       technique: "Acrylique sur toile",
    
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/encens.jpeg", "/assets/images/encens_zoom.jpeg"]
     },
@@ -141,7 +141,7 @@ window.siteData = {
       dimensions: "32,5 x 32,5 cm",
       technique: "Acrylique sur toile",
      // prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/poisson.jpeg"]
     },
@@ -153,7 +153,7 @@ window.siteData = {
       dimensions: "90 x 70 cm",
       technique: "Technique mixte",
       //prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/ruelle.jpeg"]
     },
@@ -165,7 +165,7 @@ window.siteData = {
       dimensions: "Format à préciser",
       technique: "Technique mixte",
      // prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/sac.jpeg", "/assets/images/sac_zoom.jpeg"]
     },
@@ -177,7 +177,7 @@ window.siteData = {
       dimensions: "32,5 x 32,5 cm",
       technique: "Technique mixte",
      // prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/silhouette.jpeg", "/assets/images/silhouette_zoom.jpeg"]
     },
@@ -189,7 +189,7 @@ window.siteData = {
      // dimensions: "Format à préciser",
       technique: "Technique mixte",
      // prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/tempaurel.jpeg"]
     },
@@ -201,7 +201,7 @@ window.siteData = {
       dimensions: "Format à préciser",
       technique: "Technique mixte",
       prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/tong.jpeg", "/assets/images/tong_zoom.jpeg"]
     },
