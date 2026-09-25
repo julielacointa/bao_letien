@@ -3,25 +3,36 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32" /><link rel="icon" type="image/png" href="/assets/favicon-16.png" sizes="16x16" /><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <title>Mes tableaux - Bao Le Tien</title>
-    <meta name="description" content="Galerie de tableaux contemporains disponibles, vendus ou sur demande." />
+    <meta name="description" content="Galerie des tableaux de Bao Le Tien, artiste peintre à Toulouse : peintures en acrylique et technique mixte, disponibles à la vente, vendues ou sur demande." />
     <link rel="canonical" href="https://baoletien.netlify.app/tableaux/" />
     <meta property="og:title" content="Mes tableaux - Bao Le Tien" />
-    <meta property="og:description" content="Galerie de tableaux contemporains disponibles, vendus ou sur demande." />
+    <meta property="og:description" content="Galerie des tableaux de Bao Le Tien : peintures en acrylique et technique mixte, disponibles à la vente, vendues ou sur demande." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://baoletien.netlify.app/tableaux/" />
     <meta property="og:site_name" content="Bao Le Tien" />
     <meta property="og:locale" content="fr_FR" />
-    <meta property="og:image" content="https://baoletien.netlify.app/assets/images/bao-title.jpg" />
+    <meta property="og:image" content="https://baoletien.netlify.app/assets/images/Présentation/bao-title.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mes tableaux - Bao Le Tien" />
-    <meta name="twitter:description" content="Galerie de tableaux contemporains disponibles, vendus ou sur demande." />
-    <meta name="twitter:image" content="https://baoletien.netlify.app/assets/images/bao-title.jpg" />
+    <meta name="twitter:description" content="Galerie des tableaux de Bao Le Tien : peintures en acrylique et technique mixte, disponibles à la vente, vendues ou sur demande." />
+    <meta name="twitter:image" content="https://baoletien.netlify.app/assets/images/Présentation/bao-title.jpg" />
     <link rel="stylesheet" href="../styles.css?v=45" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://baoletien.netlify.app/" },
+          { "@type": "ListItem", "position": 2, "name": "Tableaux", "item": "https://baoletien.netlify.app/tableaux/" }
+        ]
+      }
+    </script>
   </head>
   <body>
     <header class="site-header" data-header>
-      <a class="brand" href="/" aria-label="Accueil Bao Le Tien"><img class="brand-logo" src="/assets/images/logo.png" alt="Bao Le Tien" data-site-logo /><span data-site-name>Bao Le Tien</span></a>
+      <a class="brand" href="/" aria-label="Accueil Bao Le Tien"><img class="brand-logo" src="/assets/images/Présentation/logo.png" alt="Bao Le Tien" width="1122" height="1402" data-site-logo /><span data-site-name>Bao Le Tien</span></a>
       <nav class="main-nav" data-nav aria-label="Navigation principale">
         <a href="/">Accueil</a><a href="/expositions/">Expositions</a><a href="/tableaux/" aria-current="page">Tableaux</a><a href="/contact/">Contact</a>
       </nav>
@@ -45,7 +56,7 @@
       <div data-custom-sections="tableaux"></div>
     </main>
     <footer class="site-footer">
-      <a class="brand" href="/" aria-label="Accueil Bao Le Tien"><img class="brand-logo" src="/assets/images/logo.png" alt="Bao Le Tien" data-site-logo /><span data-site-name>Bao Le Tien</span></a>
+      <a class="brand" href="/" aria-label="Accueil Bao Le Tien"><img class="brand-logo" src="/assets/images/Présentation/logo.png" alt="Bao Le Tien" width="1122" height="1402" data-site-logo /><span data-site-name>Bao Le Tien</span></a>
       <nav aria-label="Navigation secondaire">
         <a href="https://instagram.com/" target="_blank" rel="noreferrer" data-social-link="instagram">Instagram</a>
         <a href="https://linktr.ee/" target="_blank" rel="noreferrer" data-social-link="linktree">Linktree</a>
@@ -78,7 +89,7 @@
       });
       const ungrouped = galleryArtworks.filter((art) => !groups.some((group) => group.items.includes(art)));
       if (ungrouped.length) groups.push({ collection: { name: "Autres oeuvres", description: "" }, items: ungrouped });
-      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><div class="content-card-images">${art.disponible === false ? '<span class="sold-badge">Vendu</span>' : ""}${art.images.map((src, i) => `<img src="${src}" alt="${art.titre}${i > 0 ? " (zoom)" : ""}" width="900" height="700" loading="lazy">`).join("")}</div><div><h3><a href="/tableaux/?art=${art.slug}">${art.titre}</a></h3><p>${art.description || ""}</p><p class="feature-meta">${[art.dimensions, art.technique, art.prix].filter(Boolean).join(" - ")}</p></div></article>`).join("")}</div></section>`).join("");
+      document.getElementById("gallery").innerHTML = groups.filter((group) => group.items.length).map((group) => `<section class="collection-section"><div class="content-grid">${group.items.map((art) => `<article class="content-card"><div class="content-card-images">${art.disponible === false ? '<span class="sold-badge">Vendu</span>' : ""}<img src="${art.images[0]}" alt="${art.titre}" width="900" height="700" loading="lazy"></div><div><h3><a href="/tableaux/?art=${art.slug}">${art.titre}</a></h3><p>${art.description || ""}</p><p class="feature-meta">${[art.dimensions, art.technique, art.prix].filter(Boolean).join(" - ")}</p></div></article>`).join("")}</div></section>`).join("");
       })();
     </script>
   </body>

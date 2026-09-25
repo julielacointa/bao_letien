@@ -55,15 +55,15 @@ const defaultPageContent = {
     name: "Accueil",
     heroTitle: "Des tableaux, des traces, des histoires.",
     heroSubtitle: "Bienvenue chez Bao. Entrez par la couleur, la matière et les petits détails qui restent en tête.",
-    heroImage: "/assets/images/bao-title.jpg",
-    heroImageId: "asset-bao-title",
+    heroImage: "/assets/images/Présentation/présentation_souriante.jpg",
+    heroImageId: "asset-presentation-souriante",
     titleFont: "Georgia, 'Times New Roman', serif"
   },
   about: {
     name: "Bao",
     heroTitle: "Bao, tout simplement.",
     heroSubtitle: "Un petit texte de présentation viendra bientôt raconter le parcours, les envies et les gestes de l’artiste.",
-    heroImage: "/assets/images/bao-title.jpg",
+    heroImage: "/assets/images/Présentation/bao-title.jpg",
     heroImageId: "asset-bao-title",
     titleFont: "Georgia, 'Times New Roman', serif"
   },
@@ -71,7 +71,7 @@ const defaultPageContent = {
     name: "Expositions",
     heroTitle: "Rencontrer les oeuvres",
     heroSubtitle: "Retrouvez les expositions en cours et les prochains rendez-vous en galerie.",
-    heroImage: "/assets/images/echelle.jpg",
+    heroImage: "/assets/images/gallerie/echelle.jpg",
     heroImageId: "asset-echelle",
     titleFont: "Georgia, 'Times New Roman', serif"
   },
@@ -79,7 +79,7 @@ const defaultPageContent = {
     name: "Tableaux",
     heroTitle: "Mes tableaux",
     heroSubtitle: "Tableaux disponibles à la vente",
-    heroImage: "/assets/images/bao-title.jpg",
+    heroImage: "/assets/images/Présentation/bao-title.jpg",
     heroImageId: "asset-bao-title",
     titleFont: "Georgia, 'Times New Roman', serif"
   }
@@ -119,7 +119,7 @@ function applySocialLinks() {
     element.textContent = links.siteName || defaultSocialLinks.siteName;
   });
   document.querySelectorAll("[data-site-logo]").forEach((element) => {
-    element.src = resolveImageSource(links.logoImageId || defaultSocialLinks.logoImageId, "/assets/images/logo.png");
+    element.src = resolveImageSource(links.logoImageId || defaultSocialLinks.logoImageId, "/assets/images/Présentation/logo.png");
     element.alt = links.siteName || defaultSocialLinks.siteName;
   });
   document.querySelectorAll("[data-social-link]").forEach((element) => {
@@ -440,8 +440,8 @@ const revealObserver = new IntersectionObserver(
 
 document.querySelectorAll(".section-reveal").forEach((section) => revealObserver.observe(section));
 
-const lightboxSelectors = ".exhibition-gallery img, .detail-layout img, .content-card-images img";
-if (document.querySelector(".exhibition-gallery, .detail-layout, .content-card-images") || document.getElementById("artwork-detail")) {
+const lightboxSelectors = ".exhibition-gallery img, .detail-layout img, .content-card-images img, .atelier-grid img";
+if (document.querySelector(".exhibition-gallery, .detail-layout, .content-card-images, .atelier-grid") || document.getElementById("artwork-detail")) {
   const lightboxOverlay = document.createElement("div");
   lightboxOverlay.className = "lightbox-overlay";
   lightboxOverlay.innerHTML = `
@@ -490,7 +490,7 @@ if (document.querySelector(".exhibition-gallery, .detail-layout, .content-card-i
   document.addEventListener("click", (event) => {
     const img = event.target.closest(lightboxSelectors);
     if (!img) return;
-    const gallery = img.closest(".exhibition-gallery, .detail-layout, .content-card-images");
+    const gallery = img.closest(".exhibition-gallery, .detail-layout, .content-card-images, .atelier-grid");
     const images = Array.from(gallery.querySelectorAll("img"));
     openLightbox(images, images.indexOf(img));
   });
@@ -891,7 +891,7 @@ if (artworkForm) {
     const collection = getCollections().find((item) => String(item.id) === String(collectionId))?.name || "Sans collection";
     const bankImageId = formData.get("bankImage");
     const bankImage = getImageBank().find((imageItem) => String(imageItem.id) === bankImageId);
-    const image = bankImage?.src || formData.get("image").trim() || "/assets/images/bao-title.jpg";
+    const image = bankImage?.src || formData.get("image").trim() || "/assets/images/Présentation/bao-title.jpg";
     const localArtworks = getLocalArtworks();
     localArtworks.push({
       id: Date.now(),
