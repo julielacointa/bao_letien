@@ -137,7 +137,7 @@ window.siteData = {
       dimensions: "40 x 40 cm",
       technique: "Acrylique sur toile",
      // prix: "Prix à définir",
-      disponible: true,
+      disponible: false,
       collectionId: "default-bao",
       images: ["/assets/images/gallerie/dechire.jpeg"]
     },
